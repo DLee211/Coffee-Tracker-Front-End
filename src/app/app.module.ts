@@ -1,8 +1,9 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http'; // import this
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ApiService } from './api.service'; // import your service
 
 @NgModule({
   declarations: [
@@ -10,11 +11,9 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule // add this
   ],
-  providers: [
-    provideClientHydration()
-  ],
+  providers: [ApiService], // add your service here
   bootstrap: [AppComponent]
 })
 export class AppModule { }
