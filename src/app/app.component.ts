@@ -12,9 +12,19 @@ export class AppComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
     this.apiService.getData().subscribe(data => {
       console.log(data);
       this.data = data;
+    });
+  }
+
+  deleteData(id: number) {
+    this.apiService.deleteData(id).subscribe(() => {
+      this.loadData(); // reload the data
     });
   }
 }

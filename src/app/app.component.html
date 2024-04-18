@@ -11,6 +11,8 @@
     <td>{{item.dateConsumed | date:'MM/dd/yyyy'}}</td>
     <td>{{item.cups}}</td>
     <td>{{item.notes}}</td>
-    <!-- Add more data cells as needed -->
+    <td>
+      <button (click)="deleteData(item.id)">Delete</button>
+    </td>
   </tr>
 </table>

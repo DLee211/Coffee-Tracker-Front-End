@@ -13,4 +13,8 @@ export class ApiService {
   getData(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
   }
+
+  deleteData(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
 }
