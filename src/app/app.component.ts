@@ -11,15 +11,34 @@ export class AppComponent implements OnInit {
   data: any[] = [];
 
   isModalOpen = false; // Add this line
+  isEditing = false;
+  currentId: number | null = null;
+
+  currentCoffee: any = null; // Add this line
 
   coffeeForm!: FormGroup;
 
   openModal() {
     this.isModalOpen = true;
+    this.isEditing = false;
+    this.coffeeForm.reset();
+  }
+
+  editData(id: number, coffee: any) {
+    this.isModalOpen = true;
+    this.isEditing = true;
+    this.currentCoffee = coffee; // Save the whole coffee object
+    this.coffeeForm.setValue({
+      dateConsumed: coffee.dateConsumed,
+      cups: coffee.cups,
+      notes: coffee.notes
+    });
   }
 
   closeModal() {
     this.isModalOpen = false;
+    this.isEditing = false;
+    this.currentId = null;
   }
 
   constructor(private apiService: ApiService, private formBuilder: FormBuilder) { }
@@ -48,9 +67,21 @@ export class AppComponent implements OnInit {
     });
   }
 
-  addCoffee(coffeeData: any) {
-    this.apiService.postData(coffeeData).subscribe(() => {
-      this.loadData(); // reload the data
-    });
+  addCoffee(coffee: any) {
+    if (!this.coffeeForm.valid) {
+      return;
+    }
+
+    if (this.isEditing) {
+      this.apiService.putData(this.currentCoffee.id, coffee).subscribe(() => { // Use the id from currentCoffee
+        this.loadData();
+        this.closeModal();
+      });
+    } else {
+      this.apiService.postData(coffee).subscribe(() => {
+        this.loadData();
+        this.closeModal();
+      });
+    }
   }
 }

@@ -28,4 +28,14 @@ export class ApiService {
 
     return this.http.post<any>(this.apiUrl, coffeeData, httpOptions);
   }
+
+  putData(id: number, coffeeData: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.put<any>(`${this.apiUrl}/${id}`, coffeeData, httpOptions);
+  }
 }
