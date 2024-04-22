@@ -4,16 +4,24 @@
   <div class="modal-background"></div>
   <div class="modal-content">
     <form [formGroup]="coffeeForm" (ngSubmit)="addCoffee(coffeeForm.value)">
-      Date:
-      <input type="date" formControlName="dateConsumed">
-      Cups:
-      <input type="number" formControlName="cups">
-      Notes:
-      <input type="text" formControlName="notes">
-      <button type="submit">Add</button>
+      <div>
+        Date:
+        <input type="date" formControlName="dateConsumed">
+      </div>
+      <div>
+        Cups:
+        <input type="number" formControlName="cups">
+      </div>
+      <div>
+        Notes:
+        <input type="text" formControlName="notes">
+      </div>
+      <div>
+        <button type="submit">Add</button>
+        <button type="button" class="modal-close is-large" aria-label="close" (click)="closeModal()">Close</button>
+      </div>
     </form>
   </div>
-  <button class="modal-close is-large" aria-label="close" (click)="closeModal()">Close</button>
 </div>
 
 <table class = "Coffee-details-table">
