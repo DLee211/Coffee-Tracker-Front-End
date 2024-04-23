@@ -1,4 +1,6 @@
 <button class = "open-add-Coffee-Modal"(click)="openModal()">Add Coffee</button>
+<input type="date" [(ngModel)]="searchDate" name="searchDate">
+<button (click)="searchData()">Search</button>
 
 <div class="modal" [class.is-active]="isModalOpen">
   <div class="modal-background"></div>
@@ -30,7 +32,6 @@
     <th>Date Consumed</th>
     <th>Cups</th>
     <th>Notes</th>
-    <!-- Add more columns as needed -->
   </tr>
   <tr *ngFor="let item of data">
     <td>{{item.id}}</td>

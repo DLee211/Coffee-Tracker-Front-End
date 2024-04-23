@@ -8,15 +8,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  originalData: any[] = [];
   data: any[] = [];
 
-  isModalOpen = false; // Add this line
+  isModalOpen = false;
   isEditing = false;
   currentId: number | null = null;
 
-  currentCoffee: any = null; // Add this line
+  currentCoffee: any = null;
 
   coffeeForm!: FormGroup;
+
+  searchDate: string;
+
 
   openModal() {
     this.isModalOpen = true;
@@ -27,7 +31,7 @@ export class AppComponent implements OnInit {
   editData(id: number, coffee: any) {
     this.isModalOpen = true;
     this.isEditing = true;
-    this.currentCoffee = coffee; // Save the whole coffee object
+    this.currentCoffee = coffee;
     this.coffeeForm.setValue({
       dateConsumed: coffee.dateConsumed,
       cups: coffee.cups,
@@ -41,7 +45,10 @@ export class AppComponent implements OnInit {
     this.currentId = null;
   }
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder) { }
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder)
+  {
+    this.searchDate = '';
+  }
 
 
   ngOnInit() {
@@ -54,16 +61,30 @@ export class AppComponent implements OnInit {
     });
   }
 
+  searchData() {
+    if (this.searchDate) {
+      let searchDate = new Date(this.searchDate);
+      searchDate.setHours(23, 59, 59, 999);
+      this.data = this.originalData.filter(item => {
+        const itemDate = new Date(item.dateConsumed);
+        return itemDate > searchDate;
+      });
+    } else {
+      this.data = [...this.originalData];
+    }
+  }
+
   loadData() {
     this.apiService.getData().subscribe(data => {
       console.log(data);
-      this.data = data;
+      this.originalData = data;
+      this.data = [...this.originalData];
     });
   }
 
   deleteData(id: number) {
     this.apiService.deleteData(id).subscribe(() => {
-      this.loadData(); // reload the data
+      this.loadData();
     });
   }
 
@@ -73,7 +94,7 @@ export class AppComponent implements OnInit {
     }
 
     if (this.isEditing) {
-      this.apiService.putData(this.currentCoffee.id, coffee).subscribe(() => { // Use the id from currentCoffee
+      this.apiService.putData(this.currentCoffee.id, coffee).subscribe(() => {
         this.loadData();
         this.closeModal();
       });

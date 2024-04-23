@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http'; // import this
 
 import { AppComponent } from './app.component';
 import { ApiService } from './api.service';
-import {ReactiveFormsModule} from "@angular/forms"; // import your service
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -14,9 +14,10 @@ import {ReactiveFormsModule} from "@angular/forms"; // import your service
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    // add this
+    FormsModule,
+
   ],
-  providers: [ApiService], // add your service here
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
